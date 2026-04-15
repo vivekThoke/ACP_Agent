@@ -20,4 +20,6 @@ def build_extraction_prompt(text: str) -> str:
 
         Document:
         {text}
+        
+        Do NOT guess values
         """
