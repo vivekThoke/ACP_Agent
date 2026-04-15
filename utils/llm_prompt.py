@@ -2,9 +2,13 @@ def build_extraction_prompt(text: str) -> str:
     return f"""
         You are an insurance claims AI agent.
 
-        Extract the following fields from the FNOL document.
+        IMPORTANT:
+        - If the document does NOT contain actual filled values, return all fields as null.
+        - DO NOT guess or infer values.
 
-        Return STRICT JSON only (no explanation).
+        Extract the following fields.
+
+        Return STRICT JSON only.
 
         Fields:
         - policy_number
@@ -14,12 +18,13 @@ def build_extraction_prompt(text: str) -> str:
         - estimated_damage
 
         Rules:
-        - If not found → return null
-        - estimated_damage must be integer
-        - Keep description concise
+        - If value is not explicitly present → return null
+        - Do NOT extract labels
+        - Do NOT hallucinate
 
         Document:
         {text}
+        
         
         Do NOT guess values
         """

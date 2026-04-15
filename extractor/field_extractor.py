@@ -66,7 +66,13 @@ def extract_damage(text):
 
 
 def extract_fields(text):
-    if not has_meaningful_data(text):
+    has_data = has_meaningful_data(text)
+
+    print("[DEBUG]: Has meaningful data:", has_data)
+
+    if not has_data:
+        print("[DEBUG]: Empty form detected. Skipping extraction.")
+
         return {
             "policy_number": None,
             "policyholder_name": None,
@@ -84,6 +90,7 @@ def extract_fields(text):
     }
 
     if any(v is None for v in data.values()):
+        print("[DEBUG] Calling LLM fallback...")
         llm_data = extract_with_llm(text)
 
         for key in data:
