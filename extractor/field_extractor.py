@@ -57,3 +57,18 @@ def extract_date(text):
     match =  re.search(r"\b\d{2}/\d{2}/\d{4}\b", text)
     return match.group(0) if match else None
 
+
+# Description
+def extract_description(text):
+    lines = text.split("\n")
+
+    for i, line in enumerate(lines):
+        if "DESCRIPTION OF ACCIDENT" in line.upper():
+            desc = []
+            for j in range(i+1, i+10):
+                if j < len(lines):
+                    desc.append(lines[j].strip())
+            return " ".join(desc)
+
+    return None
+
