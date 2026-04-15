@@ -1,4 +1,6 @@
 import re
+from extractor.llm_extractor import extract_with_llm
+
 
 # Policy Number
 def extract_policy_number(text):
@@ -63,10 +65,19 @@ def extract_damage(text):
 
 
 def extract_fields(text):
-    return {
+    data = {
         "policy_number": extract_policy_number(text),
         "policyholder_name": extract_name(text),
         "incident_date": extract_date(text),
         "description": extract_description(text),
         "estimated_damage": extract_damage(text)
     }
+
+    if any(v is None for v in data.values()):
+        llm_data = extract_with_llm(text)
+
+        for key in data:
+            if not data[key] and key in llm_data:
+                data[key] = llm_data[key]
+
+    return data
