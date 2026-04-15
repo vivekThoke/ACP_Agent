@@ -26,5 +26,5 @@ def extract_with_llm(text: str) -> dict:
         return data
 
     except Exception as e:
-        print("LLM extraction failed:", e)
+        print("[DEBUG]: LLM extraction failed:", e)
         return {}

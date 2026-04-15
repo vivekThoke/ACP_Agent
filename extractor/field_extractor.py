@@ -81,12 +81,20 @@ def extract_fields(text):
             "estimated_damage": None
         }
     
+    # data = {
+    #     "policy_number": extract_policy_number(text),
+    #     "policyholder_name": extract_name(text),
+    #     "incident_date": extract_date(text),
+    #     "description": extract_description(text),
+    #     "estimated_damage": extract_damage(text)
+    # }
+    
     data = {
-        "policy_number": extract_policy_number(text),
-        "policyholder_name": extract_name(text),
-        "incident_date": extract_date(text),
-        "description": extract_description(text),
-        "estimated_damage": extract_damage(text)
+        "policy_number": None,
+        "policyholder_name": None,
+        "incident_date": None,
+        "description": None,
+        "estimated_damage": None
     }
 
     if any(v is None for v in data.values()):
