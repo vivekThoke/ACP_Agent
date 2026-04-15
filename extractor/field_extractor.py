@@ -24,3 +24,29 @@ def extract_fields(text: str) -> dict:
     data["estimated_damage"] = int(damage_match.group(1).replace(",", "")) if damage_match else None
     
     return data
+
+# Policy Number
+def extract_policy_number(text):
+    lines = text.split("\n")
+
+    for i, line in enumerate(lines):
+        if "POLICY NUMBER" in line.upper():
+            for j in range(i+1, min(i+5, len(lines))):
+                candidate = lines[j].strip()
+
+                if candidate and len(candidate) > 5 and not candidate.isalpha():
+                    return candidate
+    return None
+
+# Policyholder Name
+def extract_name(text):
+    lines = text.split("\n")
+
+    for i, line in enumerate(lines):
+        if "NAME OF INSURED" in line.upper():
+            for j in range(i+1, i+5):
+                if j < len(lines):
+                    val = lines[j].strip()
+                    if val and len(val.split()) >= 2:
+                        return val
+    return None
