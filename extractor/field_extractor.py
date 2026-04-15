@@ -50,3 +50,10 @@ def extract_name(text):
                     if val and len(val.split()) >= 2:
                         return val
     return None
+
+
+# Incident Name
+def extract_date(text):
+    match =  re.search(r"\b\d{2}/\d{2}/\d{4}\b", text)
+    return match.group(0) if match else None
+
