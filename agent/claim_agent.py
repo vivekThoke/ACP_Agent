@@ -8,41 +8,27 @@ class ClaimAgent:
         self.max_retries = max_retries
 
     def process(self, text: str):
-        attempt = 0
-        final_data = None
         reasoning_steps = []
 
-        while attempt <= self.max_retries:
-            reasoning_steps.append(f"Attempt {attempt+1}: Extracting fields")
+        reasoning_steps.append("Starting extraction")
 
-            extracted = extract_fields(text)
-            missing = find_missing_fields(extracted)
+        extracted = extract_fields(text)
+        missing = find_missing_fields(extracted)
 
-            reasoning_steps.append(f"Missing fields: {missing}")
+        reasoning_steps.append(f"Missing fields: {missing}")
 
-            # ✅ Decision 1: If no missing → stop
-            if not missing:
-                reasoning_steps.append("All fields extracted successfully")
-                final_data = extracted
-                break
+        if missing:
+            reasoning_steps.append("Proceeding with partial data (no re-call to LLM)")
+        else:
+            reasoning_steps.append("All fields extracted successfully")
 
-            # ✅ Decision 2: Retry if attempts left
-            if attempt < self.max_retries:
-                reasoning_steps.append("Retrying extraction using LLM refinement")
-                attempt += 1
-            else:
-                reasoning_steps.append("Max retries reached. Proceeding with available data")
-                final_data = extracted
-                break
-
-        # 🚦 Routing
-        route, reason = route_claim(final_data, missing)
+        route, reason = route_claim(extracted, missing)
 
         return {
-            "extractedFields": final_data,
+            "extractedFields": extracted,
             "missingFields": missing,
             "recommendedRoute": route,
-            "reasoning": self._build_reasoning(reasoning_steps, reason)
+            "reasoning": " | ".join(reasoning_steps) + f" | Final: {reason}"
         }
 
     def _build_reasoning(self, steps, final_reason):

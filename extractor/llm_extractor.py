@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import google.generativeai as genai
 from dotenv import load_dotenv
 from utils.llm_prompt import build_extraction_prompt
@@ -13,18 +14,34 @@ model = genai.GenerativeModel("models/gemini-2.5-flash")
 def extract_with_llm(text: str) -> dict:
     prompt = build_extraction_prompt(text)
 
-    try:
-        response = model.generate_content(prompt)
+    retries = 3
+    delay = 5  # seconds
 
-        raw_output = response.text.strip()
+    for attempt in range(retries):
+        try:
+            response = model.generate_content(
+                prompt,
+                generation_config={
+                    "temperature": 0.1,
+                    "max_output_tokens": 500
+                }
+            )
 
-        if raw_output.startswith("```"):
-            raw_output = raw_output.replace("```json", "").replace("```", "").strip()
+            raw_output = response.text.strip()
 
-        data = json.loads(raw_output)
+            if raw_output.startswith("```"):
+                raw_output = raw_output.replace("```json", "").replace("```", "").strip()
 
-        return data
+            return json.loads(raw_output)
 
-    except Exception as e:
-        print("[DEBUG]: LLM extraction failed:", e)
-        return {}
+        except Exception as e:
+            print(f"[DEBUG]: LLM error (attempt {attempt+1}):", e)
+
+            if "429" in str(e):
+                print(f"[DEBUG]: Rate limit hit. Sleeping {delay}s...")
+                time.sleep(delay)
+                delay *= 2  # exponential backoff
+            else:
+                break
+
+    return {}
