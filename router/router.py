@@ -1,3 +1,5 @@
+import re
+
 def route_claim(data: dict, missing_fields: list):
     description = (data.get("description") or "").lower()
     damage = data.get("estimated_damage")
@@ -15,8 +17,16 @@ def route_claim(data: dict, missing_fields: list):
     if "injury" in description:
         return "Specialist Queue", "Injury-related claim"
 
+    damage_val = parse_amount(damage)
     # Rule 4: Fast track
-    if damage and damage < 25000:
+    if damage_val and damage_val  < 25000:
         return "Fast Track", "Low estimated damage"
 
     return "Standard Processing", "Default routing"
+
+def parse_amount(value):
+    if not value:
+        return None
+    # remove currency symbols and commas
+    cleaned = re.sub(r"[^\d]", "", value)
+    return int(cleaned) if cleaned else None
