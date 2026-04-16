@@ -1,38 +1,188 @@
-.App {
-  text-align: center;
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
+/* App Background */
+body {
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Heading */
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Grid for fields */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Labels */
+p {
+  font-size: 14px;
+}
+
+/* Upload Input */
+input[type="file"] {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  width: 100%;
+  background: #f9fafb;
+}
+
+/* Button */
+button {
+  margin-top: 15px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Loader */
+.loader {
+  margin-top: 20px;
+  padding: 12px;
+  background: #eef2ff;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Error */
+.error {
+  margin-top: 20px;
+  padding: 12px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 8px;
+}
+
+/* Section titles */
+h3 {
+  margin-bottom: 12px;
+}
+
+h4 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #374151;
+}
+
+/* JSON block */
+pre {
+  background: #111827;
+  color: #e5e7eb;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+/* Upload Box */
+.upload-box {
+  position: relative;
+  margin-top: 15px;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  background: #f9fafb;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Hide default input */
+.upload-box input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Hover / Drag state */
+.upload-box:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.upload-box.active {
+  border-color: #4f46e5;
+  background: #eef2ff;
+}
+
+/* Content */
+.upload-content {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.upload-content p {
+  font-size: 14px;
+  color: #6b7280;
 }
 
-.App-link {
-  color: #61dafb;
+.upload-content span {
+  color: #4f46e5;
+  font-weight: 500;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* File name */
+.file-name {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #111827;
+  font-weight: 500;
 }

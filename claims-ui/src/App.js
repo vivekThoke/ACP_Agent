@@ -1,46 +1,53 @@
 import React, { useState } from "react";
-import axios from "axios";
+import FileUpload from "./components/FileUpload";
+import ResultCard from "./components/ResultCard";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import { processClaim } from "./services/api";
+import "./App.css";
 
 function App() {
   const [file, setFile] = useState(null);
   const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append("file", file);
+    if (!file) {
+      setError("Please select a file");
+      return;
+    }
 
-    const res = await axios.post("http://127.0.0.1:8000/process-claim", formData);
-    setResponse(res.data);
+    setLoading(true);
+    setError("");
+    setResponse(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await processClaim(formData);
+      setResponse(res.data);
+    } catch (err) {
+      setError("Failed to process claim. Check backend.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Insurance Claims Agent</h2>
+    <div className="container">
+      <h2>Insurance Claims AI</h2>
 
-      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-      <button onClick={handleUpload}>Upload</button>
+      <FileUpload
+        onFileSelect={setFile}
+        onUpload={handleUpload}
+        loading={loading}
+      />
 
-      {response && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Structured Output</h3>
-
-          <div>
-            <p><b>Policy Number:</b> {response.extractedFields.policy_number || "N/A"}</p>
-            <p><b>Name:</b> {response.extractedFields.policyholder_name || "N/A"}</p>
-            <p><b>Date:</b> {response.extractedFields.incident_date || "N/A"}</p>
-            <p><b>Damage:</b> {response.extractedFields.estimated_damage || "N/A"}</p>
-          </div>
-
-          <h3>Route</h3>
-          <p>{response.recommendedRoute}</p>
-
-          <h3>Reasoning</h3>
-          <p>{response.reasoning}</p>
-
-          <h3>Raw JSON</h3>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
-        </div>
-      )}
+      {loading && <Loader />}
+      {error && <ErrorMessage message={error} />}
+      {response && <ResultCard data={response} />}
     </div>
   );
 }
