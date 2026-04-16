@@ -14,6 +14,11 @@ It allows users to:
 
 ---
 
+🔄 Processing Flow
+<img width="1919" height="1033" alt="image" src="https://github.com/user-attachments/assets/4048881b-6a20-42c2-9bf7-82b82fffccb7" />
+<img width="1919" height="1027" alt="image" src="https://github.com/user-attachments/assets/d1aef1d6-2bc1-4968-86cd-6aa133d0afa2" />
+<img width="1915" height="1031" alt="image" src="https://github.com/user-attachments/assets/c122ef9f-96fb-447b-b2ea-fc2172e2a62f" />
+
 ## 🧠 What This Project Does
 
 The system acts as an **Autonomous AI Agent** that:
