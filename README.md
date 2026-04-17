@@ -258,34 +258,7 @@ http://localhost:3000
 
 * Confidence scoring
 * Batch processing
-* Drag & drop UI
 * Deployment (Render + Vercel)
 * Vector DB (RAG) for claim history
 * Fraud detection ML model
 
----
-
-## 🧠 How This Stands Out
-
-This is not just parsing — it is:
-
-> ✅ An autonomous AI agent with decision-making
-> ✅ Hybrid extraction pipeline
-> ✅ Explainable routing logic
-> ✅ Production-ready architecture
-
----
-
-## 👨‍💻 Author
-
-Built as a real-world AI + backend engineering project to demonstrate:
-
-* Data extraction systems
-* LLM integration
-* System design thinking
-
----
-
-## 📄 License
-
-MIT License
